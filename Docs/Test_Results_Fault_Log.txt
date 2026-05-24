@@ -1,0 +1,37 @@
+=================================================
+       SYSTEM BOOT LOG & FAULT TEST RESULTS
+=================================================
+[00:00.000] SYS: STM32F401RE Microcontroller initialized.
+[00:00.050] SYS: CMSIS-V2 FreeRTOS kernel started.
+[00:00.100] SD_CARD: FatFs mounted successfully (SPI2).
+[00:00.150] SENSOR: MPU6050 IMU initialized on I2C1 (Address 0x68).
+[00:00.200] SENSOR: Neo-6M GPS locked on USART1 (9600 Baud).
+[00:00.250] CAN_BUS: MCP2515 Transceiver initialized (SPI1).
+[00:00.300] TELEMETRY: ESP32 WiFi/BLE streaming started at 10Hz (USART2).
+[00:00.500] SYS: All RTOS Tasks running successfully.
+
+--- BEGIN TEST VECTORS ---
+[00:15.300] INJECTION: Simulating IMU Disconnect...
+[00:15.320] ALARM: I2C1 Bus Error Detected! 
+[00:15.350] FAULT_MONITOR: Flag FAULT_FLAG_IMU_DISC raised.
+[00:15.400] RECOVERY: Re-initializing I2C1 peripheral...
+[00:15.550] RECOVERY: MPU6050 acknowledged. Logging resumed.
+
+[00:30.000] INJECTION: Simulating GPS Signal Loss...
+[00:30.010] ALARM: NMEA string timeout (> 2000ms).
+[00:30.050] FAULT_MONITOR: Flag FAULT_FLAG_GPS_LOSS raised.
+[00:30.060] RECOVERY: Switching to Dead Reckoning via IMU & Wheel Speed.
+
+[00:45.000] INJECTION: Simulating SD Card Write Failure...
+[00:45.010] ALARM: SPI2 Write Error (FatFs FR_DISK_ERR).
+[00:45.050] FAULT_MONITOR: Flag FAULT_FLAG_SD_FAIL raised.
+[00:45.100] RECOVERY: Attempting SD Card unmount/remount...
+[00:45.250] RECOVERY: SD Card remounted successfully. Buffer flushed.
+
+[00:55.000] INJECTION: Simulating Engine ECU CAN Timeout...
+[00:55.050] ALARM: No CAN messages received in 500ms.
+[00:55.100] FAULT_MONITOR: Flag FAULT_FLAG_CAN_TMOUT raised.
+[00:55.150] WARNING: Engine RPM data stale.
+
+[01:00.000] SYS: Test Sequence Completed. System Shutting Down.
+=================================================
